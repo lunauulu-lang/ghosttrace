@@ -1,0 +1,55 @@
+{
+  "schemaVersion": 1,
+  "incidentId": "incident-haunted-checkout-001",
+  "title": "The Haunted Checkout (synthetic, no actual payments)",
+  "currency": "USD",
+  "events": [
+    {
+      "eventId": "evt-payment-001",
+      "deliveryIndex": 1,
+      "occurredAt": "2026-11-16T10:00:02.000Z",
+      "type": "payment.captured",
+      "version": 2,
+      "checkoutId": "demo-001",
+      "payload": {
+        "amount_minor": 4900,
+        "currency": "USD"
+      }
+    },
+    {
+      "eventId": "evt-checkout-001",
+      "deliveryIndex": 2,
+      "occurredAt": "2026-11-16T10:00:00.000Z",
+      "type": "checkout.created",
+      "version": 1,
+      "checkoutId": "demo-001",
+      "payload": {
+        "total_minor": 4900,
+        "currency": "USD"
+      }
+    },
+    {
+      "eventId": "evt-payment-001",
+      "deliveryIndex": 3,
+      "occurredAt": "2026-11-16T10:00:02.000Z",
+      "type": "payment.captured",
+      "version": 2,
+      "checkoutId": "demo-001",
+      "payload": {
+        "amount_minor": 4900,
+        "currency": "USD"
+      }
+    },
+    {
+      "eventId": "evt-fulfillment-001",
+      "deliveryIndex": 4,
+      "occurredAt": "2026-11-16T10:00:04.000Z",
+      "type": "fulfillment.requested",
+      "version": 1,
+      "checkoutId": "demo-001",
+      "payload": {
+        "destination": "synthetic-demo-only"
+      }
+    }
+  ]
+}

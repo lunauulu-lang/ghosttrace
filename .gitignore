@@ -1,0 +1,12 @@
+node_modules/
+dist/
+.vite/
+.env
+.env.*
+!.env.example
+coverage/
+playwright-report/
+.vscode/
+test-results/
+.DS_Store
+# DO NOT IGNORE .kiro/ — required in Kiroween contest repository

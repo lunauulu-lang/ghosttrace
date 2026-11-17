@@ -1,0 +1,28 @@
+name: CI
+on:
+  push:
+    branches: [main]
+  pull_request:
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+      - name: Root .kiro and LICENSE present
+        run: test -d .kiro && test -f LICENSE
+      - uses: actions/setup-node@v4
+        if: hashFiles('package.json') != ''
+        with:
+          node-version: '22'
+      - name: Install
+        if: hashFiles('package.json') != ''
+        run: npm ci
+      - name: Typecheck
+        if: hashFiles('package.json') != ''
+        run: npm run typecheck
+      - name: Test
+        if: hashFiles('package.json') != ''
+        run: npm test
