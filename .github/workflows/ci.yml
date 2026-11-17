@@ -26,3 +26,6 @@ jobs:
       - name: Test
         if: hashFiles('package.json') != ''
         run: npm test
+      - name: Build
+        if: hashFiles('package.json') != ''
+        run: npm run build
