@@ -1,6 +1,6 @@
 # Implementation tasks — Kiro must execute and verify after credits
 
-**Do not start now.** Planning written outside Kiro on 2026-11-16. One worker at a time. An unchecked task is NOT completed just because a file exists.
+Planning written outside Kiro on 2026-11-16; Slice 0 started 2026-11-17 after owner gates were satisfied. One worker at a time. An unchecked task is NOT completed just because a file exists.
 
 - [x] T0 (evidence: bootstrap commit 561322c, 2026-11-17) — **Owner approval required for repository creation:** create a dedicated PRIVATE contest repository, copy staging folder CONTENTS to its root, keep root `/.kiro` and `LICENSE`, commit. Do not publish without approval. Record original commit and date; never transfer EvidencePulse/Factory histories. Verify Windows git fetch/commit/push to this private repo with an innocuous non-model marker before allowing Kiro model work.
 - [ ] T1 — **Slice 0 / first actual Kiro model run:** bootstrap minimum Vite + React + TypeScript static SPA manifest/lockfile and implement `src/engine/{schema,identity,replay}.ts` plus automated tests for G000–G111, conflicting same-ID contents and rejected-then-successful retry. Keep root-agent session sequential, no subagents. Use local short unit tests only; run heavier Vite build/E2E in contest repo CI. Record run ID, SHA, before/after credit balances and exact test outputs. Stop after <=60 minutes; one corrective attempt maximum.
