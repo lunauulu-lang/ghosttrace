@@ -39,7 +39,7 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
 - Date/time: 2026-11-17, approx. 19:46-20:00 +06 (local, Windows host).
 - Kiro surface: Kiro Crew dashboard, single foreground session, no subagents, no Task Runner. Session/run ID: not exposed to the agent (owner to fill).
 - Branch: `slice-0`. Prior commit: f42acce ("kiro: update repository status after bootstrap"). Slice commit SHA: see `git log` (a commit cannot record its own SHA).
-- RAM free at start: about 1.9 GiB (owner stated memory was freed; below the 2 GiB steering threshold, noted). Credits before/after: owner to fill. Bonus credits before/after: owner to fill.
+- RAM free at start: about 1.9 GiB (owner stated memory was freed; below the 2 GiB steering threshold, noted). Credits (owner-reported): Free credits before 0.11/50, after 0.11/50. kiroween2026 bonus before 0/4000, after 7.08/4000. Session turns 0.41 + 1.02 + 5.30, plus 0.27 for a failed first session opened in the wrong folder. PR #1 merged to main as `fdc8dc3`.
 - The turn was interrupted once after `npm install` and resumed; no completed step was repeated.
 - Files created: `package.json`, `package-lock.json`, `tsconfig.json`, `vite.config.ts`, `index.html`, `src/main.tsx`, `src/App.tsx`, `src/engine/{types,schema,identity,repair,invariants,replay}.ts`, `tests/engine/{helpers,golden,identity,schema,properties}.ts` (helpers/test files). Edited: `README.md`, `.kiro/specs/ghosttrace/tasks.md`, this log.
 - Commands and exit codes:
@@ -58,3 +58,25 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
   4. Money must be a positive safe integer (zero rejected). Payment v1 uses `amount_cents`; checkout.created and fulfillment accept version 1 only.
   5. Input hash is a non-cryptographic 53-bit fingerprint (cyrb53) of canonical JSON, not SHA-256.
   6. Memory was 1.9 GiB at start, under the 2 GiB gate; owner approved starting.
+
+## Slice 1 run entry (2026-11-17)
+
+- Date/time: 2026-11-17, approx. 21:14-21:22 +06 (local, Windows host).
+- Kiro surface: Kiro Crew dashboard, single foreground session, no subagents, no Task Runner. Session/run ID: not exposed to the agent (owner to fill).
+- Branch: `slice-1` from `main` (HEAD 18f21d2). Commits: 7d5dce7 (Part A), 89c6ef2 (Parts B and C), tasks/log commit: see `git log` (a commit cannot record its own SHA).
+- RAM free at start: measured 1.92 GiB (below the 2 GiB gate). A first check read 0.70 GiB and the run stopped; the owner then explicitly approved starting at 1.92 GiB. Credits before/after: owner to fill.
+- Files created: `src/engine/compare.ts`, `src/lib/redact.ts`, `tests/engine/compare.test.ts`, `tests/lib/redact.test.ts`. Edited: `.github/workflows/ci.yml` (Build step), `.kiro/specs/ghosttrace/tasks.md`, this log. No Slice 0 test edited, no UI touched.
+- Commands and exit codes:
+  - `git checkout -b slice-1` exit 0
+  - After Part A: `npm test` exit 0 (5 files, 54 tests); `npm run typecheck` exit 0
+  - After Parts B+C: `npm test` exit 0 (6 files, 61 tests); `npm run typecheck` exit 0; `npm run build` exit 0 (vite, 15 modules, 219.61 kB JS)
+- Test counts per file: identity 5, golden 12, schema 27, properties 4, compare 6, redact 7.
+- Build result: local Vite build passed. Risk: the lockfile was made on Windows; if Linux CI fails with `Cannot find module @rollup/rollup-linux-x64-gnu`, that is a lockfile issue, not an engine bug. `package-lock.json` was not edited.
+- Decisions where the spec was silent:
+  1. Mismatched input hash: `compareReplays` returns `{ inputHashMatch: false, divergences: [], firstDivergence: null }` and does not throw.
+  2. Key normalization: lowercase, remove `-` and `_`, then substring match on token, secret, cookie, authorization, apikey, cardnumber, signature (so `tokens_count` would also be redacted; accepted over-redaction).
+  3. Depth: root container is depth 1 (as in schema.ts); a container at depth > maxDepth becomes `[MAX_DEPTH_EXCEEDED]`. Recursion is bounded by maxDepth, so no stack overflow.
+  4. Redaction output uses `defineProperty`, so a `__proto__` key stays plain data.
+  5. Compare uses divergence on decision, before, after, and sorted violation codes; ties on deliveryIndex sort by eventId.
+- Spec checks: G110 vs G111 first divergence is d3 (applied vs duplicate_skipped), as the prompt expected; F24 first divergence is d1 (rejected vs applied). No contradiction found.
+- NOT done: export/reimport, repair-spec export, UI (Workbench, Timeline, export panel), E2E, deploy, push/PR. T6 is not complete.
