@@ -80,3 +80,41 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
   5. Compare uses divergence on decision, before, after, and sorted violation codes; ties on deliveryIndex sort by eventId.
 - Spec checks: G110 vs G111 first divergence is d3 (applied vs duplicate_skipped), as the prompt expected; F24 first divergence is d1 (rejected vs applied). No contradiction found.
 - NOT done: export/reimport, repair-spec export, UI (Workbench, Timeline, export panel), E2E, deploy, push/PR. T6 is not complete.
+
+## Slice 2 run entry (2026-11-18)
+
+- Date/time: 2026-11-18, approx. 21:27-21:45 +06 (local, Windows host).
+- Kiro surface: Kiro Crew dashboard, single foreground session, no subagents, no Task Runner. Session/run ID: not exposed to the agent (owner to fill). Credits before/after: owner to fill.
+- Branch: `slice-2` from `main` (HEAD 37428d8). Commits: f80bbdd (UI spec), 369c84b (steering and hook), 18f4605 (UI v1 and tests), tasks/log commit: see `git log` (a commit cannot record its own SHA).
+- RAM gate DEVIATION: the gate is >= 2 GiB free. Measured 0.97, 1.24, 1.19 and 1.85 GiB across four checks (best 1.85 GiB, below the gate). The owner explicitly approved starting at 1.85 GiB. Free RAM during the run read 1.31 GiB (before `npm install`) and 1.01 GiB (after build). No command failed from memory.
+- Note: the owner's first request named `docs/promts/SLICE_2_PROMT.md`; the real path is `docs/prompts/SLICE_2_PROMPT.md` and that file was used.
+- Files created: `.kiro/specs/ghosttrace-ui/{requirements,design,tasks}.md`, `.kiro/steering/tech.md`, `.kiro/hooks/engine-tests-on-save.kiro.hook`, `src/styles.css`, `src/css.d.ts`, `src/components/{ReplayWorkbench,IncidentTimeline,StateInspector}.tsx`, `tests/ui/workbench.test.tsx`. Edited: `src/App.tsx`, `src/main.tsx`, `vite.config.ts` (test include widened to `.test.{ts,tsx}`), `package.json`, `package-lock.json`, `.kiro/specs/ghosttrace/tasks.md`, this log. Engine, lib and existing tests untouched.
+- Dependencies added (dev): `jsdom`, `@testing-library/react`. `@testing-library/dom` came in as a peer dependency of the latter.
+- Commands and exit codes:
+  - `git checkout main` exit 0; `git pull --ff-only` exit 0
+  - `npm test` before changes: exit 0, 61 tests
+  - `git checkout -b slice-2` exit 0
+  - `npm install -D jsdom @testing-library/react` exit 0 (`npm audit` reports a high-severity `picomatch` ReDoS advisory; the suggested fix downgrades vitest, so it was not applied)
+  - `npm test` after UI: exit 0, 7 files, 69 tests
+  - `npm run typecheck`: first run exit 1 (`./styles.css` had no type declaration), fixed with `src/css.d.ts`, then exit 0
+  - `npm run build` exit 0 (26 modules; JS 237.50 kB, gzip 74.21 kB; CSS 2.81 kB)
+- Test counts per file: identity 5, golden 12, schema 27, properties 4, compare 6, redact 7, workbench (UI) 8.
+- Decisions where the prompt was silent:
+  1. `@testing-library/dom` is not listed in `package.json` directly; npm installed it as a peer.
+  2. A `css.d.ts` module declaration was added instead of loading `vite/client` types, because `tsconfig` sets `types: []`.
+  3. The timeline rows are `<button>` elements in a `<ul>` (Tab and Enter/Space), not a listbox.
+  4. The hook file uses the `.kiro.hook` JSON format (`when: fileEdited`, `then: askAgent`) from memory of Kiro documentation. I am NOT sure this format is correct.
+- Hook: defined, execution NOT OBSERVED in Kiro Crew. Files under `src/engine/` and `src/lib/` were not saved during this session, and Kiro Crew is not known to run hooks.
+- NOT done: export/import UI, browser E2E, responsive and keyboard check in a real browser (T5 stays open), deploy, PR.
+
+## Kiro features used so far
+
+| Feature | Evidence | Status |
+|---|---|---|
+| Kiro Crew sessions | Slice 0, 1, 2 entries in this log | used; run IDs not exposed |
+| Kiro-authored spec | `.kiro/specs/ghosttrace-ui/`, commit f80bbdd | done |
+| Steering | `.kiro/steering/product.md`, `.kiro/steering/tech.md` (commit 369c84b) | done |
+| Hook | `.kiro/hooks/engine-tests-on-save.kiro.hook`, commit 369c84b | defined, execution NOT OBSERVED in Kiro Crew; format unverified |
+| Property-based tests | `tests/engine/properties.test.ts` (fast-check, seed 20261117) | done |
+| Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md` | defined; not run by this slice |
+| MCP | not yet (planned Slice 4) | not done |
