@@ -13,8 +13,8 @@ write is committed so the git history shows Kiro authorship.
 ## Gate status
 
 `main` contains Slice 0 (engine, PR #1) and Slice 1 (`src/engine/compare.ts`,
-`src/lib/redact.ts`, PR #2, merge commit `c077db3`). The operator has run `git checkout main` and
-`git pull --ff-only` before this session.
+`src/lib/redact.ts`, PR #2, merge commit `c077db3`). There is no separate operator for
+this slice: you do the git preparation (Step 0) and the push (Step 6) yourself.
 
 RAM gate: **>= 2 GiB free** at start. If below, stop and report. Record the real number.
 
@@ -22,7 +22,8 @@ RAM gate: **>= 2 GiB free** at start. If below, stop and report. Record the real
 
 - You are the only agent. No subagents, no delegation, no Task Runner.
 - Work only inside this repository. No global installs.
-- Network only for `npm install` from the public npm registry. Allowed new dev
+- Network only for `npm install` from the public npm registry and for `git pull` /
+  `git push` to this repository's `origin`. Allowed new dev
   dependencies: `jsdom`, `@testing-library/react`. Nothing else.
 - No runtime LLM calls, no webhooks, no payment SDKs, no secrets, no analytics, no
   external fonts or CDNs. The app makes zero network requests.
@@ -30,7 +31,8 @@ RAM gate: **>= 2 GiB free** at start. If below, stop and report. Record the real
   If the UI needs something the engine does not expose, stop and report.
 - Never weaken a test to make it pass.
 - No export/import UI (Slice 3), no E2E/Playwright (Slice 3), no deploy.
-- Do not push, no PRs, no merge.
+- Push only the `slice-2` branch, only in Step 6. No PRs, no merge, never push `main`,
+  never force-push. The orchestrator opens the PR and reviews it.
 - Time budget: 90 minutes. If Kiro Crew warns about low memory, stop and report.
 
 ## Read first
@@ -40,10 +42,16 @@ RAM gate: **>= 2 GiB free** at start. If below, stop and report. Record the real
 (G000–G111, F02, F16), `src/engine/{types,replay,compare,schema}.ts`, `src/App.tsx`,
 `src/main.tsx`, `fixtures/haunted-checkout.json`, `docs/KIRO_LOG.md`.
 
-## Step 0 — branch
+## Step 0 — preparation and branch
 
-Check: current branch is `main`, working tree clean, `src/engine/compare.ts` and
-`src/lib/redact.ts` exist. Otherwise stop and report. Then `git checkout -b slice-2`.
+1. `git status`: the working tree must be clean. If not, stop and report; do not stash,
+   reset or discard anything.
+2. `git checkout main`, then `git pull --ff-only`.
+3. Check that `docs/prompts/SLICE_2_PROMPT.md`, `src/engine/compare.ts` and
+   `src/lib/redact.ts` exist. Record `git log -1 --format=%h` of `main`.
+4. `npm test` must exit 0 with 61 tests before you change anything. If not, stop and
+   report.
+5. `git checkout -b slice-2`.
 
 ## Step 1 — Kiro-authored UI spec (spec-driven development)
 
@@ -147,10 +155,17 @@ Run `npm test`, `npm run typecheck`, `npm run build`; all must exit 0. Commit:
   steering files, hook (defined / fired or NOT OBSERVED), property-based tests
   (fast-check, seed 20261117), and "MCP: not yet (planned Slice 4)".
 
-Commit: `kiro: Slice 2 tasks and log`. Do not push.
+Commit: `kiro: Slice 2 tasks and log`.
+
+## Step 6 — push
+
+Only if `npm test`, `npm run typecheck` and `npm run build` all exited 0:
+`git push -u origin slice-2`. Record the exit code. If the push fails (authentication,
+network), do not retry in a loop and do not change git settings or credentials; report
+the error text.
 
 ## Final report (in chat)
 
-Branch `slice-2`, the four commit SHAs, files
+Branch `slice-2`, main SHA from Step 0, the four commit SHAs, push result, files
 created/changed, exit codes and test counts, build size, whether the hook fired,
 anything NOT DONE, open questions.
