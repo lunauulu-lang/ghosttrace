@@ -12,6 +12,6 @@ Rules: one agent, no subagents. Locally run only `npm test`, `npm run typecheck`
 - [x] 10. `playwright.config.ts`, `e2e/story.spec.ts`, `e2e/keyboard.spec.ts`, `e2e/narrow.spec.ts`; exclude `e2e/` from Vitest (R8, F18).
 - [x] 11. Add `e2e` job to `.github/workflows/ci.yml` (needs `verify`, artifact upload) (R8).
 - [x] 12. Run `npm test`, `npm run typecheck`, `npm run build`; all exit 0; commit.
-- [ ] 13. Custom agent review attempt, saved to `docs/reviews/slice-3.md`.
-- [ ] 14. Tick `.kiro/specs/ghosttrace/tasks.md`, update `docs/KIRO_LOG.md`, push `slice-3`, open PR if `gh` is logged in.
+- [x] 13. Custom agent review attempt: not possible in this session, reason in `docs/reviews/slice-3.md` (review NOT RUN).
+- [x] 14. Tick `.kiro/specs/ghosttrace/tasks.md`, update `docs/KIRO_LOG.md`, push `slice-3`, open PR if `gh` is logged in.
 Not run locally by design: Playwright (CI only). T5 stays open until the E2E job is green in CI.
