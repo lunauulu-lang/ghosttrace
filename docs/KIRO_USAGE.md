@@ -1,12 +1,12 @@
 # How Kiro was used in GhostTrace
-Draft for judges, written 2026-11-19 by Kiro (Kiro IDE) from files in this repository. Every claim links to a file or commit. Anything without evidence in the repository is marked NOT VERIFIED.
+Draft for judges, written 2026-11-19 by Kiro (Kiro IDE) and corrected in Slice 6 after publication, from files in this repository. Every claim links to a file or commit. Anything without evidence in the repository is marked NOT VERIFIED.
 
 ## Who did what
 - **Claude AI acted as orchestrator.** It wrote the slice prompts in [`docs/prompts/`](prompts/) (for example commit [36c0d52](../../../commit/36c0d52) for Slice 0, [30092af](../../../commit/30092af) for Slice 5). The prompts set scope, rules and acceptance checks.
 - **ChatGPT wrote the first planning documents** (`.kiro/specs/ghosttrace/*`, early steering, the first `docs/KIRO_LOG.md`) before any Kiro run. They were imported in the bootstrap commit [561322c](../../../commit/561322c). The log says they were not Kiro-authored ([`docs/KIRO_LOG.md`](KIRO_LOG.md), top).
-- **Kiro did the implementation work** in Slices 0 to 5: wrote code and tests, ran the commands, made the git commits and pushed the slice branches. Commits with the `kiro:` prefix are Kiro's, for example [7c90d51](../../../commit/7c90d51) (engine and golden tests).
+- **Kiro did the implementation work** in Slices 0 to 6: wrote code and tests, ran the commands, made the git commits and pushed the slice branches. Commits with the `kiro:` prefix are Kiro's, for example [7c90d51](../../../commit/7c90d51) (engine and golden tests).
 - **The owner approved and merged.** Pull requests #1 to #5 are merge commits in the history: [fdc8dc3](../../../commit/fdc8dc3), [c077db3](../../../commit/c077db3), [77720eb](../../../commit/77720eb), [a808470](../../../commit/a808470), [8681caf](../../../commit/8681caf). Review comments on those PRs were not read for this document: NOT VERIFIED.
-- Slice 0 to 2 ran in the Kiro Crew dashboard and Slices 3 to 5 in Kiro IDE ([`docs/KIRO_LOG.md`](KIRO_LOG.md), run entries). Slice 0 to 2 session IDs were not exposed to the agent. Slice 3 and 4 IDs are in the log. Credit balances are the owner's to fill: NOT VERIFIED.
+- Slice 0 to 2 ran in the Kiro Crew dashboard and Slices 3 to 6 in Kiro IDE ([`docs/KIRO_LOG.md`](KIRO_LOG.md), run entries). Slice 0 to 2 session IDs were not exposed to the agent. Slice 3 to 5 IDs are in the log. Credit balances are the owner's to fill: NOT VERIFIED.
 
 ## Kiro features and evidence
 | Feature | What it did | Evidence | State |
@@ -25,15 +25,26 @@ Draft for judges, written 2026-11-19 by Kiro (Kiro IDE) from files in this repos
 - Guest UI: [`src/components/`](../src/components/), commit [18f4605](../../../commit/18f4605).
 - CLI and MCP: [`cli/`](../cli/), [`mcp/`](../mcp/), commit [2b5d014](../../../commit/2b5d014). Slice 5 restricts both to files inside the repository ([`cli/node-io.ts`](../cli/node-io.ts), [`tests/cli/paths.test.ts`](../tests/cli/paths.test.ts)).
 - Local gates run by Kiro: `npm test`, `npm run typecheck`, `npm run build`. Exact counts and exit codes per slice are in [`docs/KIRO_LOG.md`](KIRO_LOG.md).
-- **Playwright browser tests are written ([`e2e/`](../e2e/)) but have NOT been run.** No CI result for them exists in this repository: NOT VERIFIED.
-- **The public judge link has NOT been deployed.** The Pages workflow ([`.github/workflows/pages.yml`](../.github/workflows/pages.yml)) exists and is manual-only. The owner enables Pages after making the repository public: NOT VERIFIED.
+- **Playwright browser tests** are in [`e2e/`](../e2e/) and run in the CI `e2e` job ([`.github/workflows/ci.yml`](../.github/workflows/ci.yml)). They were never run locally by Kiro (rule: no local Playwright). CI has been green (`verify` and `e2e`) on every PR since PR #4, CI runs #14 to #20: **reported by the orchestrator**, not seen by Kiro in this session.
+- **The public judge link is deployed:** https://lunauulu-lang.github.io/ghosttrace/ . The manual [`Pages` workflow](../.github/workflows/pages.yml) ran as run #1 on 2026-11-19, and the orchestrator opened the page and saw FAIL at load and PASS after "G111 Repaired" (**reported by the orchestrator**). The repository was made public on 2026-11-19 (owner decision, [`docs/reviews/pre-publication-audit.md`](reviews/pre-publication-audit.md)).
 - A PASS in GhostTrace means only that a synthetic replay passed. It makes no claim about a production system.
 
 ## How to judge in 3 minutes
-1. **Open the live link** (after the repository is public): `https://lunauulu-lang.github.io/ghosttrace/`. Until then run `npm ci` and `npm run dev` and open the printed local URL.
+1. **Open the live link:** `https://lunauulu-lang.github.io/ghosttrace/`. To run it locally, use `npm ci` and `npm run dev` and open the printed local URL.
 2. **Click through the haunted checkout.** The fixture loads in a failing state (nothing captured). Select deliveries in the timeline and read the invariant violations.
 3. **Apply repairs.** Turn on the v2 amount mapping, causal order and deduplication one at a time. With only the first two on, the replay captures 9800 (the synthetic overcapture, G110). With all three on it captures 4900 and passes (G111). Compare the before and after.
 4. **Export.** Use the export panel to preview and download the sanitized fixture, repair preset and Kiro repair spec. Import the file again to restore the same repairs.
 5. **CLI:** `npm run ghosttrace -- replay fixtures/haunted-checkout.json --repairs M,O,D` prints `PASS` with 4900 of 4900. Without `--repairs` it prints `FAIL`.
 6. **MCP:** the server is registered in `.kiro/settings/mcp.json`. In Kiro, enable the `ghosttrace` server and call `replay_incident` with `{"path": "fixtures/haunted-checkout.json", "repairs": "M,O,D"}`. Compare with [`docs/evidence/mcp-calls.md`](evidence/mcp-calls.md).
 7. **Tests:** `npm test` (unit, property and UI tests), `npm run typecheck`, `npm run build`.
+
+## Kiro surfaces
+- **Kiro Crew (Slices 0 to 2).** A dashboard that starts one foreground agent session. In practice it hid the session ID from the agent, so those run entries in [`docs/KIRO_LOG.md`](KIRO_LOG.md) say "not exposed". Hook execution was never observed in Crew (log, Slice 2); whether Crew supports hooks is NOT VERIFIED. Memory was tight on the 8 GB host and the owner approved starting under the 2 GiB gate three times (log, Slices 0 to 2).
+- **Kiro IDE (Slices 3 to 6).** Gives the agent a session ID (recorded in the log), the specs and steering files in the explorer, the MCP panel (where the owner connected the `ghosttrace` server, Slice 4), the hooks panel and the agent selector. Work that needs the owner in the UI (connect MCP, create a hook, pick the reviewer agent) was only possible here.
+- **Kiro powers were not used.** No power is installed or referenced anywhere in this repository.
+
+## Spec-driven vs vibe coding (this project only)
+- Every slice started with a spec (EARS requirements, design, tasks) committed first, then code. The specs kept scope small: each slice named the files it may touch and the engine files it must not. Examples: [`ghosttrace-export`](../.kiro/specs/ghosttrace-export/), [`ghosttrace-mcp`](../.kiro/specs/ghosttrace-mcp/).
+- The cost was time and words: several slices wrote more spec text than the code needed, and the prompts from the orchestrator already contained most of the content. The spec step mostly restated the prompt in a checkable form.
+- The benefit showed up in review. Golden values G000 to G111 and the rule "do not edit existing tests" let a failing new test be told apart from a regression (log, Slice 3: two failures in new tests, both fixed in the new tests).
+- No vibe-coded slice exists to compare against, so there is no measured difference. This is an experience report, not a benchmark.

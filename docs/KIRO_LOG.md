@@ -172,7 +172,9 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
   2. `tests/cli/paths.test.ts` creates a temporary file under the OS temp folder to test the outside-path cases, and deletes it afterwards.
   3. `docs/KIRO_USAGE.md` links commits with relative `../../../commit/<sha>` URLs, which resolve on GitHub only.
   4. The review comments on PRs #1 to #5 were not read; only the merge commits are cited.
-- NOT done: public repository, Pages enablement and deploy, public judge URL check, CI result, Playwright run, PR for `slice-5`, demo video, Devpost.## Kiro features used so far
+- NOT done: public repository, Pages enablement and deploy, public judge URL check, CI result, Playwright run, PR for `slice-5`, demo video, Devpost.
+
+## Kiro features used so far
 
 | Feature | Evidence | Status |
 |---|---|---|
