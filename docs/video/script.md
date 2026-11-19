@@ -1,4 +1,4 @@
-﻿# Demo video script (target 2:40, hard limit 2:50)
+# Demo video script (target 2:40, hard limit 2:50)
 
 Live app: https://lunauulu-lang.github.io/ghosttrace/ . Repo: https://github.com/lunauulu-lang/ghosttrace . All data is synthetic. A PASS means only that this synthetic replay passed. The narration is in `narration.txt` (about 300 words, plain English). The screen recording has no sound; narration is added afterwards. No music, no third-party logos, only the Kiro name.
 
@@ -14,7 +14,7 @@ Live app: https://lunauulu-lang.github.io/ghosttrace/ . Repo: https://github.com
 | 1:40-2:00 | Export panel with the JSON preview and the repair spec preview | Press "Preview export". Scroll the preview. Press "Download export JSON". Use the import file field to import it again. | The preview shows exactly what is saved. Secrets are redacted. The chosen repairs are stored, and import restores them. |
 | 2:00-2:12 | Terminal in the repo folder | Run `npm run ghosttrace -- replay fixtures/haunted-checkout.json --repairs M,O,D`. | The same engine runs as a command line tool: PASS, 4900 of 4900. |
 | 2:12-2:24 | Kiro IDE, MCP panel showing `ghosttrace` Connected with 3 tools, then a chat | Ask Kiro: call `replay_incident` for `fixtures/haunted-checkout.json` with repairs `M,O,D`. Show the tool result (PASS, 4900). | The same engine is an MCP server. Here Kiro calls replay_incident and gets the same pass. |
-| 2:24-2:36 | Kiro specs panel, `.kiro/steering`, hooks panel, `docs/reviews/final-review.md`, `docs/KIRO_LOG.md` | Click through each for about 2 seconds. Do not claim the hooks fired: they were NOT OBSERVED. | Each slice started with a spec. Steering kept the engine pure. I used an MCP server and a reviewer agent. The log says what worked and what did not. |
+| 2:24-2:36 | Kiro specs panel, `.kiro/steering`, hooks panel, `docs/reviews/final-review.md`, `docs/KIRO_LOG.md` | Click through each for about 2 seconds. Do not claim the hooks fired: they were NOT OBSERVED. | Each slice started with a spec. Steering kept the engine pure. I used an MCP server and a reviewer agent. The hooks never fired in my tests, and the log says so. |
 | 2:36-2:40 | End card: repo URL and live URL | Nothing. | GhostTrace. Replay it, repair it, prove it. Links below. |
 
 ## Notes for the recording
