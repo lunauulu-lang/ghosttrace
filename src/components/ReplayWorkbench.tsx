@@ -2,6 +2,7 @@ import { useMemo, useState } from "react";
 import { compareReplays } from "../engine/compare";
 import { replay } from "../engine/replay";
 import type { IncidentBundle, RepairConfig } from "../engine/types";
+import { ExportPanel } from "./ExportPanel";
 import { IncidentTimeline } from "./IncidentTimeline";
 import { StateInspector } from "./StateInspector";
 
@@ -25,7 +26,8 @@ const TOGGLES: { key: keyof RepairConfig; label: string }[] = [
   { key: "deduplicateDeliveries", label: "Deduplicate applied deliveries" },
 ];
 
-export function ReplayWorkbench({ bundle }: { bundle: IncidentBundle }) {
+export function ReplayWorkbench({ bundle: initialBundle }: { bundle: IncidentBundle }) {
+  const [bundle, setBundle] = useState<IncidentBundle>(initialBundle);
   const [config, setConfig] = useState<RepairConfig>(ALL_OFF);
   const [selected, setSelected] = useState<number | null>(null);
 
@@ -64,6 +66,15 @@ export function ReplayWorkbench({ bundle }: { bundle: IncidentBundle }) {
               </button>
             ))}
           </div>
+          <ExportPanel
+            bundle={bundle}
+            config={config}
+            onImport={(b, c) => {
+              setBundle(b);
+              setConfig(c);
+              setSelected(null);
+            }}
+          />
         </section>
         <section aria-labelledby="h-timeline" className="panel">
           <h2 id="h-timeline">Timeline</h2>

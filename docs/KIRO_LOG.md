@@ -107,14 +107,40 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
 - Hook: defined, execution NOT OBSERVED in Kiro Crew. Files under `src/engine/` and `src/lib/` were not saved during this session, and Kiro Crew is not known to run hooks.
 - NOT done: export/import UI, browser E2E, responsive and keyboard check in a real browser (T5 stays open), deploy, PR.
 
+## Slice 3 run entry (2026-11-19)
+- Kiro surface: Kiro IDE session, single agent, no subagents, no Task Runner. Session/run ID: sess_fc25d265-fc9c-4b37-8490-5c04e39b838c. Credits before/after: owner to fill.
+- Branch: `slice-3` from `main` (HEAD a8f3d8f). Commits: cee05c8 (housekeeping), f042058 (export/import spec), b7b024e (export/import and E2E), tasks/log commit: see `git log` (a commit cannot record its own SHA).
+- RAM free at start: 2.68 GiB (gate met). Before build: 2.34 GiB.
+- Files created: `.kiro/hooks/engine-tests.json`, `.kiro/specs/ghosttrace-export/{requirements,design,tasks}.md`, `src/lib/{exportBundle,importBundle}.ts`, `src/components/ExportPanel.tsx`, `tests/lib/{exportBundle,importBundle,roundtrip}.test.ts`, `tests/ui/exportPanel.test.tsx`, `playwright.config.ts`, `e2e/{story,keyboard,narrow}.spec.ts`, `docs/reviews/slice-3.md`. Deleted: `.kiro/hooks/engine-tests-on-save.kiro.hook`. Edited: `ReplayWorkbench.tsx` (bundle held in state, panel added), `styles.css`, `vite.config.ts` (exclude `e2e/`), `tsconfig.json` (include `e2e`, `playwright.config.ts`), `.github/workflows/ci.yml` (job `e2e`), `package.json`, `package-lock.json`, spec task files, this log. `src/engine/**` and existing tests untouched.
+- Dependency added (dev): `@playwright/test` only. Browsers not downloaded.
+- Commands and exit codes (local):
+  - `git checkout main`, `git pull --ff-only`: exit 0 (already up to date)
+  - `npm test` before changes: exit 0, 7 files, 69 tests
+  - `npm install -D @playwright/test` (with `PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1`): exit 0, 0 vulnerabilities
+  - First `npm test` after new tests: exit 1 (two failures in my own new tests: a config key-order comparison, and a money test that mutated a field the first event does not have); both fixed in the tests, no existing test touched
+  - `npm test`: exit 0, 11 files, 101 tests
+  - `npm run typecheck`: first run exit 1 (`Buffer` not typed in an e2e file), fixed, then exit 0
+  - `npm run build`: exit 0 (30 modules; JS 244.37 kB, gzip 76.22 kB; CSS 3.29 kB)
+  - Playwright: NOT RUN locally by rule. No CI result exists yet.
+- New tests: exportBundle 8, importBundle 12, roundtrip 3, exportPanel (UI) 7 = 30; total 101.
+- Decisions where the prompt was silent:
+  1. The preview and the download use one string, so what is shown is what is saved.
+  2. The whole export file is passed through `redact`, not only the bundle.
+  3. An import with unknown keys inside `preset.config` is rejected; unknown top-level keys are ignored.
+  4. A bundle that contained secrets exports as `[REDACTED]` values and still imports. Its fingerprint then differs from the original; the round-trip claim is for bundles without secret keys (the fixture).
+  5. The import status line uses `data-testid`, not `role="status"`, so the existing UI test that finds the single status element keeps working.
+  6. The Playwright config starts `vite preview` itself (`webServer`), so the CI step is `npx playwright test`.
+- Hook: format migrated to `.kiro/hooks/engine-tests.json` (`version: "v1"`, `PostFileSave`, regex matcher, command `npm test`). The matcher regex was checked against sample paths in PowerShell. Execution NOT OBSERVED: no file under `src/engine/` or `src/lib/` was saved through the IDE in a way I could confirm triggered it; I created files under `src/lib/` and saw no hook output.
+- Custom agent review: NOT RUN. Reason in `docs/reviews/slice-3.md`.
+- NOT done: Playwright run (CI only), CI result, deploy, merge. T5 and T7 and T8 stay open.
 ## Kiro features used so far
 
 | Feature | Evidence | Status |
 |---|---|---|
-| Kiro Crew sessions | Slice 0, 1, 2 entries in this log | used; run IDs not exposed |
-| Kiro-authored spec | `.kiro/specs/ghosttrace-ui/`, commit f80bbdd | done |
+| Kiro sessions | Slice 0, 1, 2 (Crew), Slice 3 (Kiro IDE) entries in this log | used; run IDs not exposed |
+| Kiro-authored spec | `.kiro/specs/ghosttrace-ui/` (f80bbdd), `.kiro/specs/ghosttrace-export/` (f042058) | done |
 | Steering | `.kiro/steering/product.md`, `.kiro/steering/tech.md` (commit 369c84b) | done |
-| Hook | `.kiro/hooks/engine-tests-on-save.kiro.hook`, commit 369c84b | defined, execution NOT OBSERVED in Kiro Crew; format unverified |
+| Hook | `.kiro/hooks/engine-tests.json` (format v1, `PostFileSave`), Slice 3 | format migrated from legacy `.kiro.hook`; execution NOT OBSERVED |
 | Property-based tests | `tests/engine/properties.test.ts` (fast-check, seed 20261117) | done |
-| Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md` | defined; not run by this slice |
+| Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md` | defined; reviewer NOT RUN in Slice 3 (`docs/reviews/slice-3.md` gives the reason) |
 | MCP | not yet (planned Slice 4) | not done |
