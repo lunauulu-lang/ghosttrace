@@ -1,0 +1,10 @@
+﻿{
+  "mcpServers": {
+    "ghosttrace": {
+      "command": "npx",
+      "args": ["tsx", "mcp/server.ts"],
+      "disabled": false,
+      "autoApprove": ["replay_incident", "diff_runs", "export_regression"]
+    }
+  }
+}

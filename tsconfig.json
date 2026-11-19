@@ -1,4 +1,4 @@
-{
+﻿{
   "compilerOptions": {
     "target": "ES2022",
     "lib": ["ES2022", "DOM", "DOM.Iterable"],
@@ -13,5 +13,6 @@
     "resolveJsonModule": true,
     "types": []
   },
-  "include": ["src", "tests", "e2e", "vite.config.ts", "playwright.config.ts"]
+  "include": ["src", "tests", "cli", "mcp", "e2e", "vite.config.ts", "playwright.config.ts"]
 }
+
