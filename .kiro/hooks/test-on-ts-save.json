@@ -1,0 +1,15 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "Run npm test on TypeScript save",
+      "trigger": "PostFileSave",
+      "description": "When a .ts/.tsx file under src/ or tests/ is saved, run npm test and report the result.",
+      "matcher": "(^|[\\\\/])(src|tests)[\\\\/].*\\.tsx?$",
+      "action": {
+        "type": "agent",
+        "prompt": "A TypeScript file under src/ or tests/ was just saved. Run `npm test` in the workspace root, in the foreground, with no subagents. First check free RAM; if under 2 GiB, skip the run and report that instead. Report the exact result: pass or fail, test and file counts, and the failing test names with their error messages. Do not edit or weaken any tests or source files to make it pass, and do not claim anything beyond this synthetic test run."
+      }
+    }
+  ]
+}

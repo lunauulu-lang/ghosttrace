@@ -174,6 +174,10 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
   4. The review comments on PRs #1 to #5 were not read; only the merge commits are cited.
 - NOT done: public repository, Pages enablement and deploy, public judge URL check, CI result, Playwright run, PR for `slice-5`, demo video, Devpost.
 
+## Slice 6 run entry (2026-11-19, in progress)
+- Hook created through the Kiro UI ("Ask Kiro to create a hook"): `.kiro/hooks/test-on-ts-save.json` (`PostFileSave`, matcher `src|tests` `.ts/.tsx`, action type `agent`, runs `npm test`).
+- Hook test: **NOT OBSERVED.** The owner reloaded the window, added an empty line to `tests/cli/paths.test.ts`, pressed Ctrl+S and waited over 30 seconds. Nothing visible happened: no new chat session, no agent message, no terminal, no notification. The owner removed the line and saved again. `git diff tests/` is empty afterwards (checked by me).
+- Old hook `.kiro/hooks/engine-tests.json`: kept. It is not shown to be broken; it also never fired (Slice 5). Both hooks use the same `PostFileSave` trigger, so the failure may be in how this Kiro build loads or runs that trigger. Not tested.
 ## Kiro features used so far
 
 | Feature | Evidence | Status |
