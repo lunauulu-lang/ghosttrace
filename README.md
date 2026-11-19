@@ -25,6 +25,12 @@ A guest opens "The Haunted Checkout" synthetic incident, sees a broken replay, i
 - No arbitrary URL fetching, external webhook sending, payment SDK calls, paid services or secrets. The optional CLI/MCP bridge comes only after the browser demo is verified.
 - English UI, keyboard controls, accessible dark theme and reduced-motion support.
 
+## Three heads, one engine
+The same pure replay engine (`src/engine/`) has three front ends. The CLI and the MCP server are read-only: no network, no file writes, input files <= 1 MiB.
+- Web UI: `npm run dev`, then open the printed local URL.
+- CLI: `npm run ghosttrace -- replay fixtures/haunted-checkout.json --repairs M,O,D [--json]` (M = v2 amount mapping, O = causal order, D = dedup). Exits 0 after a completed replay (PASS or FAIL), 2 on usage or input errors.
+- MCP server (stdio): `npx tsx mcp/server.ts`, registered as `ghosttrace` in `.kiro/settings/mcp.json`. Tools: `replay_incident`, `diff_runs`, `export_regression`. Real Kiro call evidence: `docs/evidence/mcp-calls.md`.
+
 ## Files
 
 - `.kiro/specs/ghosttrace/requirements.md`: implementation requirements.

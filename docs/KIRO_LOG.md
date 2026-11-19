@@ -133,6 +133,23 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
 - Hook: format migrated to `.kiro/hooks/engine-tests.json` (`version: "v1"`, `PostFileSave`, regex matcher, command `npm test`). The matcher regex was checked against sample paths in PowerShell. Execution NOT OBSERVED: no file under `src/engine/` or `src/lib/` was saved through the IDE in a way I could confirm triggered it; I created files under `src/lib/` and saw no hook output.
 - Custom agent review: NOT RUN. Reason in `docs/reviews/slice-3.md`.
 - NOT done: Playwright run (CI only), CI result, deploy, merge. T5 and T7 and T8 stay open.
+## Slice 4 run entry (2026-11-19)
+- Kiro surface: Kiro IDE session, single agent, no subagents. Session ID: sess_07de11ed-1d1a-4df5-9048-492fd931d4d3. Credits before/after: owner to fill.
+- Branch: `slice-4` from `main` (HEAD 21bab9f). Commits: 1dc8460 (MCP/CLI spec), 2b5d014 (CLI and MCP server), tasks/log commit: see `git log` (a commit cannot record its own SHA).
+- Files created: `.kiro/specs/ghosttrace-mcp/{requirements,design,tasks}.md`, `cli/{core,node-io,run,main}.ts`, `cli/node.d.ts`, `mcp/server.ts`, `.kiro/settings/mcp.json`, `tests/cli/cli.test.ts`, `docs/evidence/mcp-calls.md`. Edited: `package.json` (scripts `ghosttrace`, `mcp`), `package-lock.json`, `tsconfig.json` (include `cli`, `mcp`), `README.md`, `.kiro/specs/ghosttrace/tasks.md`, this log. `src/engine/**`, `src/lib/**` and existing tests untouched.
+- Dependencies added: `@modelcontextprotocol/sdk`, `zod`, dev `tsx`. `@types/node` is not allowed, so `cli/node.d.ts` declares the few Node APIs used.
+- Commands and exit codes:
+  - `git checkout main` 0; `git pull --ff-only` 0 (a8f3d8f to 21bab9f)
+  - `npm test` before changes: 0 (11 files, 101 tests); `git checkout -b slice-4` 0
+  - `npm i @modelcontextprotocol/sdk zod` 0; `npm i -D tsx` 0 (0 vulnerabilities)
+  - `npm run typecheck`: first run 1 (leftover `ALL_REPAIRS` re-export in `cli/core.ts`), fixed, then 0
+  - `npm test` after: 0 (12 files, 120 tests; 19 new in `tests/cli/cli.test.ts`)
+  - `npm run build` 0
+  - CLI by hand: `npm run ghosttrace -- replay fixtures/haunted-checkout.json --repairs M,O,D` printed PASS 4900/4900; `--repairs M,O` printed FAIL 9800/4900
+- MCP: the first attempt stopped because the `ghosttrace` server was not connected in this session. The owner enabled it in the Kiro MCP panel (Connected, 3 tools). Then three real calls through MCP: `replay_incident` (no repairs) returned FAIL with 0 captured; `replay_incident` (M,O,D) returned PASS with 4900 captured; `diff_runs` (none vs M,O,D) returned first divergence d1 `evt-payment-001` (rejected vs applied), 3 divergences. Exact inputs and outputs: `docs/evidence/mcp-calls.md`.
+- Hook `.kiro/hooks/engine-tests.json`: NOT OBSERVED. No file under `src/engine/` or `src/lib/` was saved in this session, and engine code was not edited to trigger it.
+- Playwright: NOT RUN (by rule). Custom agent review: NOT RUN.
+- NOT done: CI result for this branch, deploy, PR, merge.
 ## Kiro features used so far
 
 | Feature | Evidence | Status |
@@ -143,4 +160,4 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
 | Hook | `.kiro/hooks/engine-tests.json` (format v1, `PostFileSave`), Slice 3 | format migrated from legacy `.kiro.hook`; execution NOT OBSERVED |
 | Property-based tests | `tests/engine/properties.test.ts` (fast-check, seed 20261117) | done |
 | Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md` | defined; reviewer NOT RUN in Slice 3 (`docs/reviews/slice-3.md` gives the reason) |
-| MCP | not yet (planned Slice 4) | not done |
+| MCP | `.kiro/settings/mcp.json`, `mcp/server.ts`, `docs/evidence/mcp-calls.md` (three real calls through MCP, Slice 4) | done |
