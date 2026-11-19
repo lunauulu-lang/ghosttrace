@@ -15,7 +15,6 @@ GhostTrace is a deterministic webhook incident workbench for solo SaaS engineers
 - Implementation contract: `.kiro/specs/ghosttrace/{requirements,design,tasks}.md`.
 - First model-run instruction: `CREW_TASK.md`.
 - Execution and acceptance evidence: `docs/KIRO_LOG.md`, `docs/TEST_MATRIX.md`.
-- Preparation background (not part of contest repo): https://github.com/lunauulu-lang/ai-software-factory/issues/8
 - Project name is provisional. No trademark clearance or commercial demand validation.
 
 ## Product demo
