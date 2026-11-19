@@ -1,11 +1,11 @@
-# Kiro Crew — GhostTrace first real implementation slice (NOT RUN)
+# Kiro Crew — GhostTrace first real implementation slice (historical: Slice 0 was run on 2026-11-17)
 
 ## Authority and scope
-Contest: Kiroween 2026 / Frankenstein. This document is a **planning instruction**, not a successful Kiro run.
+Contest: Kiroween 2026 / Frankenstein. This document is the **historical planning instruction** for Slice 0. It is not evidence of a run; the run is recorded in `docs/KIRO_LOG.md`. The repository was private at the time and became public on 2026-11-19.
 The owner approved spending existing Kiro Free credits and Kiroween bonus credits for contest development on 2026-11-17; no Pro plan, paid overage, deployment or public release is authorized.
 
 ## Gates BEFORE the first model call
-1. Dedicated **PRIVATE** GhostTrace repository must be created with the CONTENTS of this staging folder at its root, including `/.kiro` and `LICENSE`. Repository creation needs owner's separate approval. Do not publish or transfer AI Software Factory / EvidencePulse history.
+1. (Historical gate, met on 2026-11-17.) A dedicated GhostTrace repository was to be created, private until publication, with the CONTENTS of this staging folder at its root, including `/.kiro` and `LICENSE`. Repository creation needs owner's separate approval. Do not publish or transfer AI Software Factory / EvidencePulse history.
 2. Windows has a clean checked-out contest branch; `git status`, `git remote -v` and an innocuous non-model Git push/fetch have been verified for THIS repository. No tokens in logs.
 3. Crew auth matches credited Kiro account, paid overage OFF, start balance recorded. Preflight KAS PASS already reported on Windows, but not a proof of first model execution.
 4. Available physical memory **at least 2 GiB**, Crew reports no critically-low-memory warning. Close optional apps/tabs without stopping active Gateway.
@@ -26,7 +26,7 @@ Create minimal Vite + React + TypeScript repository scaffolding and a **pure det
 ## Evidence and limits
 - Before starting: record timestamp, memory, run/session ID if provided, Kiro account usage. During run, do not start another agent.
 - Stop after 60 minutes or on RAM warnings, auth failure, unsupported tools or ambiguous spend settings. Maximum one corrective attempt **after review**; no automatic indefinite retries.
-- Commit only related source/tests/docs on an isolated branch; verify a real push to the private contest repo and a SHA with relevant tests. Later verify CI green on the same SHA (or mark NOT RUN).
+- Commit only related source/tests/docs on an isolated branch; verify a real push to the contest repo and a SHA with relevant tests. Later verify CI green on the same SHA (or mark NOT RUN).
 - Record actual credits before/after; account for delayed metering. Record `PASS`, `FAIL` or `NOT RUN` for each criterion in `docs/KIRO_LOG.md` and in GitHub Issue #8.
 - Do not claim Task Runner checkpoint, pause/resume or Gateway restart recovery if using a foreground session. They may remain NOT RUN and are **not** gates to a correct core implementation.
 - Do not publish, deploy, purchase, change security controls, submit Devpost or access unrelated repositories without explicit permission.

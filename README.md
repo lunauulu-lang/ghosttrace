@@ -1,13 +1,13 @@
-# GhostTrace — Kiroween 2026 project staging package
+# GhostTrace — Kiroween 2026 (Frankenstein)
 
 GhostTrace is a deterministic webhook incident workbench for solo SaaS engineers. It replays a synthetic "haunted checkout" (schema drift, duplicate deliveries, out-of-order events) through a pure, immutable engine, lets you switch repairs on one at a time, shows the first divergence, and exports a sanitized regression fixture plus a Kiro repair spec. A PASS means only that this synthetic replay passed. Nothing here touches real payments or production systems.
 
-- **Live demo:** https://lunauulu-lang.github.io/ghosttrace/ (available after the repo is public; not deployed yet)
+- **Live demo:** https://lunauulu-lang.github.io/ghosttrace/ (deployed by the `Pages` workflow, run #1, 2026-11-19; reported by the orchestrator)
 - **How Kiro was used, with evidence:** [docs/KIRO_USAGE.md](docs/KIRO_USAGE.md)
 - **Judge in 3 minutes:** last section of that document.
 - **Local gates:** `npm test`, `npm run typecheck`, `npm run build`.
 
-**STATUS (2026-11-17):** This is the dedicated private contest repository (bootstrap commit 561322c). Slice 0 (pure replay engine and golden tests) is the first Kiro run, tracked in `docs/KIRO_LOG.md`. Planning specs were authored outside Kiro. Nothing is deployed or published.
+**STATUS (2026-11-19):** This repository is public and the live demo above is deployed with GitHub Pages. Slices 0 to 5 are merged to `main` (engine, UI, export/import, CLI and MCP, release preparation); Slice 6 is final polish. CI (`verify` and Playwright `e2e` jobs) has been green on every PR since PR #4 (reported by the orchestrator; see `.github/workflows/ci.yml`). Planning specs were authored outside Kiro; Kiro runs are tracked in `docs/KIRO_LOG.md`. The contest repository began as a bootstrap commit (561322c).
 
 - Track: Frankenstein
 - Deadline: 2026-12-04 14:00 Pacific = 2026-12-05 04:00 Bishkek
@@ -28,7 +28,7 @@ A guest opens "The Haunted Checkout" synthetic incident, sees a broken replay, i
 - Read-only local JSON upload with strict size/event/depth limits, validation and privacy-safe export with a reproducible repairs preset.
 - Optional Supabase auth + RLS persistence is post-contest work; do not add it to the contest-critical path.
 - Static hosting deployment only when a working build exists and publication is approved.
-- No arbitrary URL fetching, external webhook sending, payment SDK calls, paid services or secrets. The optional CLI/MCP bridge comes only after the browser demo is verified.
+- No arbitrary URL fetching, external webhook sending, payment SDK calls, paid services or secrets. The CLI and MCP bridge is built (see "Three heads, one engine").
 - English UI, keyboard controls, accessible dark theme and reduced-motion support.
 
 ## Three heads, one engine
@@ -43,11 +43,11 @@ The same pure replay engine (`src/engine/`) has three front ends. The CLI and th
 - `.kiro/specs/ghosttrace/design.md`: architecture/data contract/algorithms.
 - `.kiro/specs/ghosttrace/tasks.md`: sequential acceptance-driven tasks.
 - `.kiro/steering/product.md`: persistent constraints for actual Kiro work.
-- `.kiro/agents/`: proposed role configurations; existence is not proof of agent execution.
-- `CREW_TASK.md`: bounded first implementation slice; DO NOT RUN until private contest repo, verified Git push, credit and RAM gates pass.
+- `.kiro/agents/`: builder and reviewer role configurations; the reviewer was run once in Slice 6 (reported by the owner, see `docs/reviews/final-review.md`).
+- `CREW_TASK.md`: historical Slice 0 instruction (already executed); kept as evidence of the original gates.
 - `docs/TEST_MATRIX.md`: failure/repair regression matrix.
 - `docs/SUBMISSION_AND_EVIDENCE.md`: proof and Devpost gates.
-- `docs/KIRO_LOG.md`: actual Kiro run/session/credit/test ledger, initially NOT RUN.
+- `docs/KIRO_LOG.md`: Kiro run entries per slice (session IDs where exposed), test results and feature table.
 - `fixtures/haunted-checkout.json`: synthetic input.
 
 ## Evidence policy

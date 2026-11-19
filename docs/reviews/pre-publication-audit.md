@@ -31,3 +31,11 @@ No secret, token, email, phone number or local path was found. One metadata gap 
 ## Not checked
 - Content of GitHub settings, secrets, Actions history or issues (outside the tracked files).
 - Binary files: none are tracked.
+
+## Owner decisions recorded (Slice 6, 2026-11-19)
+The owner decided, as relayed in the Slice 6 prompt:
+1. **Copyright holder:** keep `lunauulu-lang` in `LICENSE`.
+2. **README link to the private repository:** removed (commit 2f056fe).
+3. **Stale "private" wording:** fixed in Slice 6 (`README.md` STATUS paragraph and Live demo line, `CREW_TASK.md`).
+4. **Prompt files:** all of `docs/prompts/*` are kept.
+5. **Publication:** the repository was made public on 2026-11-19 (reported by the owner).

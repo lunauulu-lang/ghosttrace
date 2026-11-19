@@ -1,6 +1,6 @@
 # Kiro implementation evidence register
 
-> Status 2026-11-17: **NO KIRO MODEL IMPLEMENTATION RUN RECORDED.**
+> Status 2026-11-17 (seed, superseded on 2026-11-19): no Kiro run was recorded yet. Real run entries for Slices 0 to 6 follow below. The ledger and gate tables directly under this note are the unfilled seed, kept as history; use the run entries and the final feature table.
 > This seed log was authored by ChatGPT as planning documentation, not by Kiro.
 
 ## Architecture changes made before any Kiro code generation
@@ -172,16 +172,40 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
   2. `tests/cli/paths.test.ts` creates a temporary file under the OS temp folder to test the outside-path cases, and deletes it afterwards.
   3. `docs/KIRO_USAGE.md` links commits with relative `../../../commit/<sha>` URLs, which resolve on GitHub only.
   4. The review comments on PRs #1 to #5 were not read; only the merge commits are cited.
-- NOT done: public repository, Pages enablement and deploy, public judge URL check, CI result, Playwright run, PR for `slice-5`, demo video, Devpost.## Kiro features used so far
+- NOT done: public repository, Pages enablement and deploy, public judge URL check, CI result, Playwright run, PR for `slice-5`, demo video, Devpost.
+
+## Slice 6 run entry (2026-11-19)
+- Kiro surface: Kiro IDE session, single agent, no subagents. Session ID: not available to the agent. Credits before/after: owner to fill.
+- Branch: `slice-6` from `main` (HEAD c2029b6). Commits: 03d8842 (polish spec), 283b0b1 (truthful docs), c78aa14 (hook created in Kiro UI), b2f4e37 (reviewer findings and fixes), 7df7381 and 231ee79 (video script), docs/Devpost and log commit: see `git log` (a commit cannot record its own SHA).
+- RAM free: 2.46 GiB at start, 2.30 GiB before the final build (gate met).
+- Files created: `.kiro/specs/ghosttrace-polish/*`, `.kiro/hooks/test-on-ts-save.json` (made by Kiro in the UI), `docs/reviews/final-review.md` (written by the reviewer chat, resolution section added by me), `tests/lib/redactExtended.test.ts`, `tests/cli/symlink.test.ts`, `docs/video/{script.md,narration.txt,recording-checklist.md}`, `docs/DEVPOST.md`. Edited: `src/lib/redact.ts` (owner-approved: more secret keys), `cli/node.d.ts` (two typings for the new test), `README.md`, `CREW_TASK.md`, `docs/KIRO_USAGE.md`, `docs/KIRO_LOG.md`, `docs/SUBMISSION_AND_EVIDENCE.md`, `docs/TEST_MATRIX.md`, `docs/reviews/pre-publication-audit.md`, `.kiro/specs/ghosttrace-export/requirements.md` (one line). `src/engine/**` and existing tests untouched.
+- Commands and exit codes: `git checkout main` 0; `git pull --ff-only` 0 (30092af to c2029b6); `npm test` before changes 0 (14 files, 133 tests); `git checkout -b slice-6` 0; `npm run typecheck` 1 once (my new symlink test used `node:fs` functions and `process.pid` missing from `cli/node.d.ts`), fixed, then 0; final `npm test` 0 (16 files, 138 tests: 4 in `redactExtended`, 1 in `symlink`); final `npm run build` 0 (JS 244.61 kB, gzip 76.32 kB). Playwright: NOT RUN (by rule).
+- Hook (UI-created `test-on-ts-save.json`): **NOT OBSERVED.** The owner reloaded the window, added an empty line to `tests/cli/paths.test.ts`, pressed Ctrl+S and waited over 30 seconds. Nothing visible happened: no new chat session, no agent message, no terminal, no notification. The owner removed the line and saved again. `git diff tests/` was empty (checked by me).
+- Old hook `.kiro/hooks/engine-tests.json`: kept. It is not shown to be broken; it also never fired (Slice 5). Both use the `PostFileSave` trigger, so the cause may be how this Kiro build loads or runs that trigger. Not tested.
+- Reviewer agent: **reported by the owner**: selected `ghosttrace-reviewer` in the agent selector and ran the review in a new chat; output `docs/reviews/final-review.md`. The review text says the agent could not verify which agent it was and has no session ID, so this is NOT VERIFIED beyond the owner's report. 2 high, 7 medium and 11 low findings. Fixed: H1 (partly, owner's key list), H2 (doc wording), M2, M3, M4 (symlink test only), M7 (partly), L10. Everything else is listed under "Not fixed" in that file, with reasons.
+- MCP `export_regression` call requested by the owner: NOT DONE. The `ghosttrace` MCP tools are not available to this agent session, so I could not call them. I did not run it another way or write output by hand. `docs/KIRO_USAGE.md` now says two of three tools were called.
+- Video tools (not installed by me): `ffmpeg` version 9.0.2-full_build-www.gyan.dev; `faster_whisper` NOT installed (ModuleNotFoundError); `remotion` NOT installed (`npx --no-install remotion` could not determine an executable).
+- Decisions where the prompt was silent:
+  1. The video script is 11 rows summing to 2:40; narration is 303 words. It says the hooks never fired, to match the log.
+  2. The Devpost draft lists the unfixed redaction/conflict finding as a challenge.
+  3. A first edit of three docs corrupted characters because of an array-flattening bug in my own PowerShell helper; I restored them from git and redid the edits before any commit.
+- NOT done: `export_regression` MCP call, hook firing, session ID for the reviewer run, CI result for this branch, PR, merge, the video itself, YouTube link, Devpost submission.
+
+- Hook created through the Kiro UI ("Ask Kiro to create a hook"): `.kiro/hooks/test-on-ts-save.json` (`PostFileSave`, matcher `src|tests` `.ts/.tsx`, action type `agent`, runs `npm test`).
+- Hook test: **NOT OBSERVED.** The owner reloaded the window, added an empty line to `tests/cli/paths.test.ts`, pressed Ctrl+S and waited over 30 seconds. Nothing visible happened: no new chat session, no agent message, no terminal, no notification. The owner removed the line and saved again. `git diff tests/` is empty afterwards (checked by me).
+- Old hook `.kiro/hooks/engine-tests.json`: kept. It is not shown to be broken; it also never fired (Slice 5). Both hooks use the same `PostFileSave` trigger, so the failure may be in how this Kiro build loads or runs that trigger. Not tested.
+## Kiro features used so far
 
 | Feature | Evidence | Status |
 |---|---|---|
 | Kiro sessions | Slice 0, 1, 2 (Crew), Slice 3 (Kiro IDE) entries in this log | used; run IDs not exposed |
 | Kiro-authored spec | `.kiro/specs/ghosttrace-ui/` (f80bbdd), `.kiro/specs/ghosttrace-export/` (f042058) | done |
 | Steering | `.kiro/steering/product.md`, `.kiro/steering/tech.md` (commit 369c84b) | done |
-| Hook | `.kiro/hooks/engine-tests.json` (format v1, `PostFileSave`), Slice 3 | format migrated from legacy `.kiro.hook`; execution NOT OBSERVED (Slice 5: owner saved `src/engine/schema.ts` unchanged, saw nothing in 20 s) |
+| Hooks | `.kiro/hooks/engine-tests.json` (Slice 3, `PostFileSave`) and `.kiro/hooks/test-on-ts-save.json` (created in the Kiro UI, Slice 6) | both defined; execution NOT OBSERVED (Slice 5: unchanged save, nothing in 20 s; Slice 6: edit and save of `tests/cli/paths.test.ts`, nothing in 30+ s) |
 | Property-based tests | `tests/engine/properties.test.ts` (fast-check, seed 20261117) | done |
-| Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md` | defined; reviewer NOT RUN in Slice 3 (`docs/reviews/slice-3.md` gives the reason) |
+| Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md`, `docs/reviews/final-review.md` | builder never run; reviewer run once in Slice 6, reported by the owner, NOT VERIFIED (no session ID); was NOT RUN in Slice 3 (`docs/reviews/slice-3.md` gives the reason) |
 | MCP | `.kiro/settings/mcp.json`, `mcp/server.ts`, `docs/evidence/mcp-calls.md` (three real calls through MCP, Slice 4) | done |
 | Kiro usage narrative | [`docs/KIRO_USAGE.md`](KIRO_USAGE.md) (Slice 5) | done; claims without evidence marked NOT VERIFIED |
 | Kiro-authored release spec | `.kiro/specs/ghosttrace-release/` (65b77f9) | done |
+| Video script and narration | `docs/video/` (Slice 6) | written; the video itself is NOT recorded |
+| Devpost draft | `docs/DEVPOST.md` (Slice 6) | written; NOT submitted |

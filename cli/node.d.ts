@@ -5,6 +5,8 @@ declare module "node:fs" {
   export function realpathSync(path: string): string;
   export function readdirSync(path: string): string[];
   export function mkdtempSync(prefix: string): string;
+  export function mkdirSync(path: string, options?: { recursive?: boolean }): string | undefined;
+  export function symlinkSync(target: string, path: string, type?: string): void;
   export function writeFileSync(path: string, data: string): void;
   export function rmSync(path: string, options?: { recursive?: boolean; force?: boolean }): void;
 }
