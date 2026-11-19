@@ -150,14 +150,38 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
 - Hook `.kiro/hooks/engine-tests.json`: NOT OBSERVED. No file under `src/engine/` or `src/lib/` was saved in this session, and engine code was not edited to trigger it.
 - Playwright: NOT RUN (by rule). Custom agent review: NOT RUN.
 - NOT done: CI result for this branch, deploy, PR, merge.
-## Kiro features used so far
+## Slice 5 run entry (2026-11-19)
+- Kiro surface: Kiro IDE session, single agent, no subagents. Session ID: sess_b71fdb1c-d481-4f70-bcca-16b83c0b9424. Credits before/after: owner to fill.
+- Branch: `slice-5` from `main` (HEAD 30092af). Commits: 65b77f9 (release spec), aa60dff (Pages workflow and path confinement), 606895c (pre-publication audit), final docs commit: see `git log` (a commit cannot record its own SHA).
+- RAM free at start: 2.54 GiB; before final build: 2.62 GiB (gate met).
+- Files created: `.kiro/specs/ghosttrace-release/{requirements,design,tasks}.md`, `.github/workflows/pages.yml`, `cli/paths.ts`, `tests/release/paths.test.ts`, `tests/cli/paths.test.ts`, `docs/reviews/pre-publication-audit.md`, `docs/KIRO_USAGE.md`. Edited: `cli/node-io.ts` (confinement), `cli/node.d.ts` (more typings), `package.json` (`"license": "MIT"`), `README.md` (top block), this log, `.kiro/specs/ghosttrace-release/tasks.md`. `src/engine/**`, `src/lib/**`, `vite.config.ts` and existing tests untouched. No new dependencies.
+- Commands and exit codes:
+  - `git checkout main` 0; `git pull --ff-only` 0 (21bab9f to 30092af)
+  - `npm test` before changes: 0 (12 files, 120 tests); `git checkout -b slice-5` 0
+  - `npm run typecheck` after first new files: 1 (`isDirectory` missing from the `statSync` typing in `cli/node.d.ts`), fixed, then 0
+  - `npm test` after changes: 0 (14 files, 133 tests; 13 new: 5 in `tests/release/paths.test.ts`, 8 in `tests/cli/paths.test.ts`)
+  - `npm audit --omit=dev` 0 (0 vulnerabilities)
+  - Final: `npm test` 0 (133 tests), `npm run typecheck` 0, `npm run build` 0 (30 modules; JS 244.37 kB, gzip 76.22 kB)
+  - Extra check: `npx vite build --base=/ghosttrace/` to a temp folder, exit 0; the output `index.html` references `/ghosttrace/assets/...`. The temp folder was deleted.
+  - Playwright: NOT RUN (by rule). Pages workflow: NOT RUN (manual trigger, repo private). No CI result for this branch.
+- Path confinement: CLI and MCP tools now read only files whose real path is inside the working directory. Tests cover an absolute outside path, a relative `..` path to a file outside, a normal fixture path, a missing file, Windows separators and case, and the CLI exit code (2).
+- Audit summary (`docs/reviews/pre-publication-audit.md`): no secrets, emails, phones or local paths found; `LICENSE` is MIT and `package.json` now says MIT; `.kiro` is tracked and not ignored; `npm audit --omit=dev` found 0 vulnerabilities. Owner decisions: copyright holder name, README line linking to the private `ai-software-factory` repo, stale "private" wording in README and `CREW_TASK.md`.
+- Hook `.kiro/hooks/engine-tests.json`: **NOT OBSERVED.** At my request the owner opened `src/engine/schema.ts`, pressed Ctrl+S with no change and waited 20 seconds. The owner saw no notification, no new chat message and no terminal. I did not edit engine code to trigger it. Possible reasons (not tested): an unchanged file may not count as a save, the hook may not be loaded, or its output may not be shown.
+- Decisions where the prompt was silent:
+  1. The base path is passed only as a CLI flag in `pages.yml`; no code change or path helper was needed because the fixture is imported into the bundle and `index.html` is rewritten by Vite. A guard test checks this.
+  2. `tests/cli/paths.test.ts` creates a temporary file under the OS temp folder to test the outside-path cases, and deletes it afterwards.
+  3. `docs/KIRO_USAGE.md` links commits with relative `../../../commit/<sha>` URLs, which resolve on GitHub only.
+  4. The review comments on PRs #1 to #5 were not read; only the merge commits are cited.
+- NOT done: public repository, Pages enablement and deploy, public judge URL check, CI result, Playwright run, PR for `slice-5`, demo video, Devpost.## Kiro features used so far
 
 | Feature | Evidence | Status |
 |---|---|---|
 | Kiro sessions | Slice 0, 1, 2 (Crew), Slice 3 (Kiro IDE) entries in this log | used; run IDs not exposed |
 | Kiro-authored spec | `.kiro/specs/ghosttrace-ui/` (f80bbdd), `.kiro/specs/ghosttrace-export/` (f042058) | done |
 | Steering | `.kiro/steering/product.md`, `.kiro/steering/tech.md` (commit 369c84b) | done |
-| Hook | `.kiro/hooks/engine-tests.json` (format v1, `PostFileSave`), Slice 3 | format migrated from legacy `.kiro.hook`; execution NOT OBSERVED |
+| Hook | `.kiro/hooks/engine-tests.json` (format v1, `PostFileSave`), Slice 3 | format migrated from legacy `.kiro.hook`; execution NOT OBSERVED (Slice 5: owner saved `src/engine/schema.ts` unchanged, saw nothing in 20 s) |
 | Property-based tests | `tests/engine/properties.test.ts` (fast-check, seed 20261117) | done |
 | Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md` | defined; reviewer NOT RUN in Slice 3 (`docs/reviews/slice-3.md` gives the reason) |
 | MCP | `.kiro/settings/mcp.json`, `mcp/server.ts`, `docs/evidence/mcp-calls.md` (three real calls through MCP, Slice 4) | done |
+| Kiro usage narrative | [`docs/KIRO_USAGE.md`](KIRO_USAGE.md) (Slice 5) | done; claims without evidence marked NOT VERIFIED |
+| Kiro-authored release spec | `.kiro/specs/ghosttrace-release/` (65b77f9) | done |
