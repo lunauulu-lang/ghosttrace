@@ -16,6 +16,6 @@ The same engine runs in a command line tool. One command, three repairs, and it 
 
 It also runs as an M C P server. Here, inside Kiro, I call replay incident with all three repairs. The tool returns the same pass.
 
-I built this with Kiro. Each slice started with a spec. Steering files kept the engine pure. I used an M C P server and a reviewer agent. The hooks never fired in my tests, and the log says so. Every claim is checked against the Kiro log in the repository.
+I built this with Kiro. Each slice started with a spec. Steering files kept the engine pure. I used an M C P server and a reviewer agent. The hooks never fired in my tests, and the log says so. The Kiro log in the repository records what happened.
 
 GhostTrace. Replay it, repair it, and prove it. The repository and the live demo are linked below.
