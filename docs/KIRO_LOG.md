@@ -201,10 +201,10 @@ Do not publish raw KAS/doctor output, credentials, tokens, cookies, credit redee
 | Kiro sessions | Slice 0, 1, 2 (Crew), Slice 3 (Kiro IDE) entries in this log | used; run IDs not exposed |
 | Kiro-authored spec | `.kiro/specs/ghosttrace-ui/` (f80bbdd), `.kiro/specs/ghosttrace-export/` (f042058) | done |
 | Steering | `.kiro/steering/product.md`, `.kiro/steering/tech.md` (commit 369c84b) | done |
-| Hooks | `.kiro/hooks/engine-tests.json` (Slice 3, `PostFileSave`) and `.kiro/hooks/test-on-ts-save.json` (created in the Kiro UI, Slice 6) | both defined; execution NOT OBSERVED (Slice 5: unchanged save, nothing in 20 s; Slice 6: edit and save of `tests/cli/paths.test.ts`, nothing in 30+ s) |
+| Hooks | `.kiro/hooks/engine-tests.json` (Slice 3, `PostFileSave`) and `.kiro/hooks/test-on-ts-save.json` (created in the Kiro UI, Slice 6) | `test-on-ts-save.json` OBSERVED in Slice 7 (agent edit of `tests/hooks/hook-probe.test.ts`; see Slice 7 entry). The Slice 5 and 6 NOT OBSERVED results came from manual saves, which do not trigger file hooks per [Kiro docs](https://kiro.dev/docs/hooks/); that was a wrong test, not proof of a broken hook. `engine-tests.json` not tested in Slice 7 |
 | Property-based tests | `tests/engine/properties.test.ts` (fast-check, seed 20261117) | done |
 | Custom agents | `.kiro/agents/ghosttrace-{builder,reviewer}.md`, `docs/reviews/final-review.md` | builder never run; reviewer run once in Slice 6, reported by the owner, NOT VERIFIED (no session ID); was NOT RUN in Slice 3 (`docs/reviews/slice-3.md` gives the reason) |
-| MCP | `.kiro/settings/mcp.json`, `mcp/server.ts`, `docs/evidence/mcp-calls.md` (three real calls through MCP, Slice 4) | done |
+| MCP | `.kiro/settings/mcp.json`, `mcp/server.ts`, `docs/evidence/mcp-calls.md` (Calls 1 to 3 in Slice 4, Call 4 `export_regression` in Slice 7: all three tools called for real) | done |
 | Kiro usage narrative | [`docs/KIRO_USAGE.md`](KIRO_USAGE.md) (Slice 5) | done; claims without evidence marked NOT VERIFIED |
 | Kiro-authored release spec | `.kiro/specs/ghosttrace-release/` (65b77f9) | done |
 | Video script and narration | `docs/video/` (Slice 6) | written; the video itself is NOT recorded |

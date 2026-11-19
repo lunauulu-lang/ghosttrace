@@ -1,4 +1,4 @@
-﻿# Recording checklist (screen only, no sound)
+# Recording checklist (screen only, no sound)
 
 Windows: Win+Alt+R (Xbox Game Bar) or any screen recorder. Record without a microphone. Add the narration from `narration.txt` afterwards. Target 2:40, limit 2:50.
 
@@ -29,4 +29,4 @@ Windows: Win+Alt+R (Xbox Game Bar) or any screen recorder. Record without a micr
 2. Check no private data is visible (credits, email, tokens, file paths outside the repo).
 3. Add the narration track from `narration.txt`. No music.
 4. Upload as a public YouTube video and put the link in `docs/DEVPOST.md` (placeholder `YOUTUBE_LINK_TODO`).
-5. Say in the video only what the repo shows: hooks were NOT OBSERVED, CI results are reported by the orchestrator.
+5. Say in the video only what the repo shows: the hook was observed only for agent edits (manual saves do not trigger it), CI results are reported by the orchestrator.
