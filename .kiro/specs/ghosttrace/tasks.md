@@ -19,6 +19,7 @@ Planning written outside Kiro on 2026-11-16; Slice 0 started 2026-11-17 after ow
 - [ ] T9 — After owner authorization, make dedicated repo public, verify license recognition and root `/.kiro`, deploy to approved free hosting, test public judge link and keep it accessible through 2027-01-29. No auto-spend.
 - [ ] T10 — After actual Kiro runs, write truthful Kiro usage narrative using task IDs, model/session evidence, specs, steering and real commits. Record English public YouTube demo < 3 minutes and assemble Devpost entry; submit only with owner approval.
 - [ ] T11 (optional, never before working MVP) — Package the same replay engine as read-only CLI and optionally a stdio MCP server; validate one real Kiro MCP call with logs. Drop if core/UI/CI still behind on 2026-11-28.
+  - sub-item done: read-only CLI, stdio MCP server and three real Kiro MCP calls (Slice 4, evidence `docs/evidence/mcp-calls.md`); CI result for slice-4 NOT RUN yet
 - [ ] T12 (post-contest, not critical path) — Consider Supabase auth/private incident persistence with tenant RLS and negative tests only after guest project is shipped.
 
 ## Mandatory stop gates
