@@ -1,4 +1,4 @@
-﻿# GhostTrace: Devpost draft
+# GhostTrace: Devpost draft
 
 **Category:** Frankenstein
 **Live demo:** https://lunauulu-lang.github.io/ghosttrace/
@@ -20,7 +20,7 @@ GhostTrace replays a synthetic "haunted checkout" through a deterministic engine
 With all repairs off the replay fails and captures nothing (G000). With schema mapping and ordering on but deduplication off, it captures 9800 against a total of 4900 (a synthetic over-capture, G110). With all three on it captures 4900 and passes (G111). The timeline marks the first delivery where the broken and repaired runs diverge. You can preview and download a redacted export that stores the repairs you used, import it again, and download a Kiro repair spec. The same engine also runs as a command line tool and as a local MCP server with three tools (`replay_incident`, `diff_runs`, `export_regression`). Money is integer minor units. Same-ID events with different content are a hard conflict, and a rejected delivery never reserves its ID.
 
 ## How we built it (with Kiro)
-Slices 0 to 2 ran in the Kiro Crew dashboard and Slices 3 to 6 in the Kiro IDE. Each slice from 2 onward started with a spec in `.kiro/specs/`, then tests and code. Steering files in `.kiro/steering/` set engine purity and claim limits. The golden outcomes G000 to G111 come from `docs/TEST_MATRIX.md` and are tested in `tests/engine/golden.test.ts`, with property tests (fast-check, seed 20261117). Kiro called the MCP tools `replay_incident` and `diff_runs` for real (`docs/evidence/mcp-calls.md`). A reviewer-agent run produced `docs/reviews/final-review.md`, which led to wider redaction and a symlink test. Two hooks are defined but were never observed to fire. Kiro Powers were not used. Details, limits and what is NOT VERIFIED are in [docs/KIRO_USAGE.md](KIRO_USAGE.md) and [docs/KIRO_LOG.md](KIRO_LOG.md).
+Slices 0 to 2 ran in the Kiro Crew dashboard and Slices 3 to 6 in the Kiro IDE. Each slice from 2 onward started with a spec in `.kiro/specs/`, then tests and code. Steering files in `.kiro/steering/` set engine purity and claim limits. The golden outcomes G000 to G111 come from `docs/TEST_MATRIX.md` and are tested in `tests/engine/golden.test.ts`, with property tests (fast-check, seed 20261117). Kiro called all three MCP tools (`replay_incident`, `diff_runs`, `export_regression`) for real (`docs/evidence/mcp-calls.md`). A reviewer-agent run produced `docs/reviews/final-review.md`, which led to wider redaction and a symlink test. A Kiro hook runs `npm test` when Kiro edits a test file; we saw it fire twice in Slice 7. Our earlier manual-save tests showed nothing because the [Kiro docs]( Kiro Powers were not used. Details, limits and what is NOT VERIFIED are in [docs/KIRO_USAGE.md](KIRO_USAGE.md) and [docs/KIRO_LOG.md](KIRO_LOG.md).
 
 Honest provenance: the first planning documents were written outside Kiro (ChatGPT), and the slice prompts were prepared by Claude AI as orchestrator. The owner approved every merge.
 
@@ -28,7 +28,7 @@ Honest provenance: the first planning documents were written outside Kiro (ChatG
 - Keeping the engine pure and immutable while the UI, CLI and MCP server all reuse it.
 - Defining idempotency so that a rejected delivery does not block a later valid retry.
 - Redaction versus fidelity: a redacted export can differ from the original. The final review found a case where redaction could turn a hard conflict into a pass after re-import. That case is not fixed and is listed under "Not fixed" in `docs/reviews/final-review.md`.
-- Hooks: neither hook fired in our tests, and we recorded that instead of claiming it.
+- Hooks: our first tests saved files by hand, which does not trigger Kiro file hooks ([docs](
 - Developing on an 8 GB Windows machine, so browser tests run only in GitHub Actions.
 
 ## Accomplishments

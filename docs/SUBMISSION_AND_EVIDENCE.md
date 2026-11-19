@@ -29,8 +29,8 @@ Verify source on the signed-in 2026 Devpost contest before final submission; old
 | Golden matrix G000–G111 | PASS locally (`npm test`, `tests/engine/golden.test.ts`) | `docs/KIRO_LOG.md` |
 | Browser UI / safe import / export / reimport | Unit and UI tests PASS locally. Playwright runs in CI only; green reported by the orchestrator, not seen by Kiro | `.github/workflows/ci.yml` |
 | Full contest CI (typecheck/tests/build/Playwright) | Reported green by the orchestrator (runs #14 to #20); NOT VERIFIED by Kiro | GitHub Actions job on the submitted SHA |
-| Kiro-native usage evidence | Partly: specs, steering and two MCP tools recorded; both hooks NOT OBSERVED | `docs/KIRO_USAGE.md` |
-| Optional CLI / MCP | CLI run by hand; MCP `replay_incident` and `diff_runs` called for real; `export_regression` has no recorded MCP call | `docs/evidence/mcp-calls.md` |
+| Kiro-native usage evidence | Partly: specs, steering, all three MCP tools and one hook (`test-on-ts-save`) recorded; `engine-tests` hook not tested | `docs/KIRO_USAGE.md` |
+| Optional CLI / MCP | CLI run by hand; MCP `replay_incident`, `diff_runs` and `export_regression` all called for real | `docs/evidence/mcp-calls.md` |
 | Public website & judge URL | Deployed (reported by the orchestrator, `Pages` run #1); NOT VERIFIED by Kiro | https://lunauulu-lang.github.io/ghosttrace/ |
 | Public OSS GitHub with root /.kiro | Public since 2026-11-19 (reported by the owner), MIT license | repo URL |
 | English public demo video (<3m) | NOT MADE | Public video link showing the working app |
