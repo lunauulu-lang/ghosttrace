@@ -1,0 +1,12 @@
+{
+  "version": "v1",
+  "hooks": [
+    {
+      "name": "engine-tests-on-save",
+      "description": "Runs npm test whenever a TypeScript file under src/engine/ or src/lib/ is saved.",
+      "trigger": "PostFileSave",
+      "matcher": "(^|[\\\\/])src[\\\\/](engine|lib)[\\\\/].*\\.ts$",
+      "action": { "type": "command", "command": "npm test" }
+    }
+  ]
+}

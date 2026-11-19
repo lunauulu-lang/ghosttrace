@@ -93,3 +93,12 @@ After the core, UI and export tests pass, reuse the SAME pure engine through a r
 - Kiro integration behavior on actual installed Crew runtime is untested.
 - Package installation, Vercel deploy, browser E2E and Supabase access are untested.
 - Commercial uniqueness, potential customers and pricing are hypotheses.
+
+## Implementation decisions (Kiro)
+Recorded from `docs/KIRO_LOG.md` (Slice 0 and Slice 1 entries). The text above is unchanged.
+1. Hard conflict halts replay: when one eventId arrives with different canonical content, the replay stops before any execution. Only deliveries of the conflicting eventIds get `hard_conflict` records.
+2. Zero amount rejected: money must be a positive safe integer, so `0`, floats, negatives and strings are `invalid_money`.
+3. Extra violation codes beyond the golden list: `unknown_amount`, `checkout_already_exists`, `duplicate_fulfillment`, `identity_conflict`.
+4. Input fingerprint: a non-cryptographic 53-bit cyrb53 hash of canonical JSON (including deliveryIndex), not SHA-256.
+5. Compare on mismatched input hash: `compareReplays` returns `{ inputHashMatch: false, divergences: [], firstDivergence: null }` and does not throw.
+6. Redaction key normalization: lowercase, drop `-` and `_`, then substring match on token, secret, cookie, authorization, apikey, cardnumber, signature. Over-redaction (for example `tokens_count`) is accepted.
