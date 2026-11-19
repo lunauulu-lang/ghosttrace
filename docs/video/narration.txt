@@ -1,0 +1,21 @@
+A checkout webhook goes wrong. The payment arrives before the checkout. One delivery is retried. A field changed names. Nobody knows which fault broke what.
+
+This is GhostTrace. It replays a synthetic incident through a pure, deterministic engine. No network. No real money.
+
+I open the app. The replay fails. Nothing is captured, and the order is fulfilled without payment.
+
+Now I switch on the repairs one at a time. First, the schema mapping. Then causal ordering. Look at this. The replay now captures nine thousand eight hundred. That is a synthetic over-capture, case G110. The retry was applied twice.
+
+I switch on deduplication. Now it captures forty-nine hundred. That equals the total. The replay passes. This is case G111. A pass here means only that this synthetic replay passed.
+
+The timeline marks the first divergence between the broken run and the repaired run. It is the first delivery, rejected before, applied now.
+
+Next, export. The preview shows exactly what will be saved. Secrets are redacted, and the repairs I chose are stored in the file. I can import it again and get the same state.
+
+The same engine runs in a command line tool. One command, three repairs, and it prints PASS with forty-nine hundred of forty-nine hundred.
+
+It also runs as an M C P server. Here, inside Kiro, I call replay incident with all three repairs. The tool returns the same pass.
+
+I built this with Kiro. Each slice started with a spec. Steering files kept the engine pure. I used a hook, an M C P server, and a reviewer agent. Some of these worked better than others, and the log says which. Every claim is checked against the Kiro log in the repository.
+
+GhostTrace. Replay it, repair it, and prove it. The repository and the live demo are linked below.
