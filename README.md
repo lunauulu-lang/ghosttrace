@@ -28,7 +28,7 @@ A guest opens "The Haunted Checkout" synthetic incident, sees a broken replay, i
 - Read-only local JSON upload with strict size/event/depth limits, validation and privacy-safe export with a reproducible repairs preset.
 - Optional Supabase auth + RLS persistence is post-contest work; do not add it to the contest-critical path.
 - Static hosting deployment only when a working build exists and publication is approved.
-- No arbitrary URL fetching, external webhook sending, payment SDK calls, paid services or secrets. The optional CLI/MCP bridge comes only after the browser demo is verified.
+- No arbitrary URL fetching, external webhook sending, payment SDK calls, paid services or secrets. The CLI and MCP bridge is built (see "Three heads, one engine").
 - English UI, keyboard controls, accessible dark theme and reduced-motion support.
 
 ## Three heads, one engine
@@ -43,11 +43,11 @@ The same pure replay engine (`src/engine/`) has three front ends. The CLI and th
 - `.kiro/specs/ghosttrace/design.md`: architecture/data contract/algorithms.
 - `.kiro/specs/ghosttrace/tasks.md`: sequential acceptance-driven tasks.
 - `.kiro/steering/product.md`: persistent constraints for actual Kiro work.
-- `.kiro/agents/`: proposed role configurations; existence is not proof of agent execution.
-- `CREW_TASK.md`: bounded first implementation slice; historical Slice 0 instruction (already executed); kept as evidence of the original gates.
+- `.kiro/agents/`: builder and reviewer role configurations; the reviewer was run once in Slice 6 (reported by the owner, see `docs/reviews/final-review.md`).
+- `CREW_TASK.md`: historical Slice 0 instruction (already executed); kept as evidence of the original gates.
 - `docs/TEST_MATRIX.md`: failure/repair regression matrix.
 - `docs/SUBMISSION_AND_EVIDENCE.md`: proof and Devpost gates.
-- `docs/KIRO_LOG.md`: actual Kiro run/session/credit/test ledger, initially NOT RUN.
+- `docs/KIRO_LOG.md`: Kiro run entries per slice (session IDs where exposed), test results and feature table.
 - `fixtures/haunted-checkout.json`: synthetic input.
 
 ## Evidence policy

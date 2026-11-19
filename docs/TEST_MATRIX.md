@@ -1,4 +1,4 @@
-# Regression / test matrix — proposed, NOT RUN
+# Regression / test matrix (written before the engine; G000–G111 are now covered by `tests/engine/golden.test.ts`, PASS locally)
 
 Only real test execution with command, exit code and commit SHA counts as PASS.
 Scenario source: `fixtures/haunted-checkout.json`; exact expected behavior: `.kiro/specs/ghosttrace/design.md` Golden outcomes.

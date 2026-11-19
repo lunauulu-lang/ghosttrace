@@ -6,7 +6,7 @@ Scope: client-side sanitized export of the current incident and repair settings,
 - Preset: the current `RepairConfig` (three booleans).
 - Export file: one JSON file holding the redacted bundle and the preset.
 - Repair spec: a short Markdown document ("Kiro repair spec").
-- Secret key: any key matched by `isSensitiveKey` in `src/lib/redact.ts`, case-insensitive, `-` and `_` ignored (token, secret, cookie, authorization, apikey, cardnumber, signature).
+- Secret key: any key matched by `isSensitiveKey` in `src/lib/redact.ts`, case-insensitive, `-` and `_` ignored (token, secret, cookie, authorization, apikey, cardnumber, signature; since Slice 6 also password, passwd, privatekey, hmac, session, and the whole words cvv, cvc, card, pan).
 
 ## R1 Export content (F12, F13, F22)
 User story: As an engineer, I want to export the incident and my repair settings, so that I can share a reproducible case without leaking secrets.

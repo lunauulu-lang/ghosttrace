@@ -1,6 +1,6 @@
 # Kiro implementation evidence register
 
-> Status 2026-11-17: **NO KIRO MODEL IMPLEMENTATION RUN RECORDED.**
+> Status 2026-11-17 (seed, superseded on 2026-11-19): no Kiro run was recorded yet. Real run entries for Slices 0 to 6 follow below. The ledger and gate tables directly under this note are the unfilled seed, kept as history; use the run entries and the final feature table.
 > This seed log was authored by ChatGPT as planning documentation, not by Kiro.
 
 ## Architecture changes made before any Kiro code generation

@@ -1,14 +1,38 @@
 export const REDACTED = "[REDACTED]";
 export const TOO_DEEP = "[MAX_DEPTH_EXCEEDED]";
 
-const SENSITIVE_PARTS = ["token", "secret", "cookie", "authorization", "apikey", "cardnumber", "signature"];
+// Fragments matched anywhere in the normalized key (lowercase, `-` and `_` removed).
+const SENSITIVE_PARTS = [
+  "token",
+  "secret",
+  "cookie",
+  "authorization",
+  "apikey",
+  "cardnumber",
+  "signature",
+  "password",
+  "passwd",
+  "privatekey",
+  "hmac",
+  "session",
+];
+// Short words matched only as a whole word of the key, so "pan" does not hit "company" or "panel".
+const SENSITIVE_WORDS = ["cvv", "cvc", "card", "pan"];
 
-/** Lowercase, drop `-` and `_`, then check for a sensitive fragment. */
-export function isSensitiveKey(key: string): boolean {
-  const k = key.toLowerCase().replace(/[-_]/g, "");
-  return SENSITIVE_PARTS.some((p) => k.includes(p));
+function keyWords(key: string): string[] {
+  return key
+    .replace(/([a-z0-9])([A-Z])/g, "$1 $2")
+    .toLowerCase()
+    .split(/[^a-z0-9]+/)
+    .filter((w) => w.length > 0);
 }
 
+/** True when the key names a secret: a sensitive fragment or a sensitive whole word. */
+export function isSensitiveKey(key: string): boolean {
+  const k = key.toLowerCase().replace(/[-_]/g, "");
+  if (SENSITIVE_PARTS.some((p) => k.includes(p))) return true;
+  return keyWords(key).some((w) => SENSITIVE_WORDS.includes(w));
+}
 function setOwn(target: Record<string, unknown>, key: string, value: unknown): void {
   // defineProperty keeps keys like "__proto__" as plain data instead of changing the prototype.
   Object.defineProperty(target, key, { value, enumerable: true, writable: true, configurable: true });
