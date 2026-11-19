@@ -250,3 +250,36 @@ td {
     scroll-behavior: auto !important;
   }
 }
+
+.export-panel {
+  margin-top: 1rem;
+  border-top: 1px solid var(--line);
+  min-width: 0;
+}
+.export-panel pre {
+  max-width: 100%;
+  max-height: 16rem;
+  overflow: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  padding: 0.5rem;
+  font-size: 0.8rem;
+  white-space: pre;
+}
+.file-label {
+  display: block;
+  margin-top: 0.75rem;
+  max-width: 100%;
+}
+.file-label input {
+  display: block;
+  max-width: 100%;
+  margin-top: 0.25rem;
+}
+.import-errors {
+  border: 2px solid var(--bad);
+  border-radius: 6px;
+  padding: 0.25rem 0.75rem;
+  overflow-wrap: anywhere;
+}
