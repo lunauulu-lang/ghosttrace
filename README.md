@@ -1,5 +1,12 @@
 # GhostTrace — Kiroween 2026 project staging package
 
+GhostTrace is a deterministic webhook incident workbench for solo SaaS engineers. It replays a synthetic "haunted checkout" (schema drift, duplicate deliveries, out-of-order events) through a pure, immutable engine, lets you switch repairs on one at a time, shows the first divergence, and exports a sanitized regression fixture plus a Kiro repair spec. A PASS means only that this synthetic replay passed. Nothing here touches real payments or production systems.
+
+- **Live demo:** https://lunauulu-lang.github.io/ghosttrace/ (available after the repo is public; not deployed yet)
+- **How Kiro was used, with evidence:** [docs/KIRO_USAGE.md](docs/KIRO_USAGE.md)
+- **Judge in 3 minutes:** last section of that document.
+- **Local gates:** `npm test`, `npm run typecheck`, `npm run build`.
+
 **STATUS (2026-11-17):** This is the dedicated private contest repository (bootstrap commit 561322c). Slice 0 (pure replay engine and golden tests) is the first Kiro run, tracked in `docs/KIRO_LOG.md`. Planning specs were authored outside Kiro. Nothing is deployed or published.
 
 - Track: Frankenstein
@@ -8,7 +15,6 @@
 - Implementation contract: `.kiro/specs/ghosttrace/{requirements,design,tasks}.md`.
 - First model-run instruction: `CREW_TASK.md`.
 - Execution and acceptance evidence: `docs/KIRO_LOG.md`, `docs/TEST_MATRIX.md`.
-- Preparation background (not part of contest repo): https://github.com/lunauulu-lang/ai-software-factory/issues/8
 - Project name is provisional. No trademark clearance or commercial demand validation.
 
 ## Product demo
