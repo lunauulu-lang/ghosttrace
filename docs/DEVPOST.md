@@ -3,7 +3,7 @@
 **Category:** Frankenstein
 **Live demo:** https://lunauulu-lang.github.io/ghosttrace/
 **Repository:** https://github.com/lunauulu-lang/ghosttrace (MIT license, `.kiro/` at the root)
-**Demo video:** YOUTUBE_LINK_TODO
+**Demo video:** https://youtu.be/rEmJm2CfRv8
 **How Kiro was used, with evidence:** [docs/KIRO_USAGE.md](KIRO_USAGE.md)
 
 All data is synthetic. A PASS means only that this synthetic replay passed. GhostTrace makes no claim about any production system.

@@ -3,6 +3,7 @@
 GhostTrace is a deterministic webhook incident workbench for solo SaaS engineers. It replays a synthetic "haunted checkout" (schema drift, duplicate deliveries, out-of-order events) through a pure, immutable engine, lets you switch repairs on one at a time, shows the first divergence, and exports a sanitized regression fixture plus a Kiro repair spec. A PASS means only that this synthetic replay passed. Nothing here touches real payments or production systems.
 
 - **Live demo:** https://lunauulu-lang.github.io/ghosttrace/ (deployed by the `Pages` workflow, run #1, 2026-11-19; reported by the orchestrator)
+- **Demo video (2:30):** https://youtu.be/rEmJm2CfRv8
 - **How Kiro was used, with evidence:** [docs/KIRO_USAGE.md](docs/KIRO_USAGE.md)
 - **Judge in 3 minutes:** last section of that document.
 - **Local gates:** `npm test`, `npm run typecheck`, `npm run build`.
